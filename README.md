@@ -18,7 +18,7 @@ Nicht viele, jeden normalem Arbeitstag wird der Bot jeden registrieren User absc
 
 
 ## Special thanks
-https://pajoma.de
-Selenium Web Driver C# Lib
-My mum
+ - https://pajoma.de
+ - Selenium Web Driver C# Lib
+ - My mum
  
