@@ -40,7 +40,7 @@ namespace pajoma_nvtbot.Web
             m_Driver.Manage().Window.Size = new System.Drawing.Size(1100, 950);
             m_Driver.Manage().Window.Position = new System.Drawing.Point(850, 1);
             m_JavaScript = (IJavaScriptExecutor)m_Driver;
-            m_Driver.Url = "http://nvt-server.pajoma.de:9080/cgi-bin/htm_work.cgi";
+            m_Driver.Url = Program.m_NvtLink;
             Console.WriteLine("[INFO] Web Driver for User " + user.m_Id + " initiated.");
 
 

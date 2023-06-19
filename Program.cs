@@ -17,6 +17,7 @@ namespace pajoma_nvtbot
         static public extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
         public delegate bool EventHandler(CtrlType sig);
         public static EventHandler? m_Handler;
+        public static string m_NvtLink = null!;
 
         public enum CtrlType
         {
@@ -75,6 +76,8 @@ namespace pajoma_nvtbot
             IniFile basecfg = new IniFile(AppDomain.CurrentDomain.BaseDirectory + "\\config.ini");
             if (!basecfg.KeyExists("auth-token", "Discord Bot")) basecfg.Write("auth-token", "changeme", "Discord Bot");
 
+            if (!basecfg.KeyExists("url", "Novatime WEB Driver")) basecfg.Write("url", "changeme", "Novatime WEB Driver");
+
             if (basecfg.Read("auth-token", "Discord Bot").Equals("changeme"))
             {
                 Console.WriteLine("Discord Bot Token not set! Please change it to a valid bot token in settings.cfg");
@@ -82,6 +85,15 @@ namespace pajoma_nvtbot
                 Program.StopSafely();
                 return;
             }
+
+            if (basecfg.Read("url", "Novatime WEB Driver").Equals("changeme"))
+            {
+                Console.WriteLine("Novatime WEB Url not set! Please change it to a valid bot token in settings.cfg");
+                Console.ReadLine();
+                Program.StopSafely();
+                return;
+            }
+            else m_NvtLink = basecfg.Read("url", "Novatime WEB Driver");
 
 
 
