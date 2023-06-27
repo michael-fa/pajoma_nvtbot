@@ -144,7 +144,7 @@ namespace pajoma_nvtbot.Users
 
                         string[] tmp = Journal.GetFormatedSummary(this);
                         
-                        if (tmp.Length != 10 || tmp.Contains("T00"))
+                        if (tmp.Length != 10 || tmp[2].Contains("T00"))
                         {
                             /*foreach (Process prs in Process.GetProcesses())
                             {
