@@ -18,7 +18,7 @@ Nicht viele, jeden normalem Arbeitstag wird der Bot jeden registrieren User absc
 
 
 ## Special thanks
- - https://pajoma.de
+ - https://pajoma.de (Not really for the time-sys, but more for giving multitasking skills to anyone who stays there for longer than a month. Positively..) hah.
  - Selenium Web Driver C# Lib
- - My mum
+ - Mom and dad
  
