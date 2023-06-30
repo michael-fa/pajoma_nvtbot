@@ -61,6 +61,10 @@ namespace pajoma_nvtbot
 
         static void Main(string[] args)
         {
+#if DEBUG
+             Console.WriteLine("------ DEBUGMODE!!!!");
+#endif
+
             Console.OutputEncoding = Encoding.Unicode;
             m_Handler += new EventHandler(Handler);
             SetConsoleCtrlHandler(m_Handler, true);
