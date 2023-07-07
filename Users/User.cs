@@ -188,12 +188,12 @@ namespace pajoma_nvtbot.Users
                                 {
                                     if (m_lastmsg! != null!) await ch.DeleteMessageAsync(m_lastmsg);
                                     m_MsgCount = 0;
+                                    m_lastmsg = null!;
                                     DiscordMessage x = await ch.SendMessageAsync("[PJ-NVT] Du bist nun über 25 Minuten abwesend.");
                                     Thread.Sleep(25 * 60000);
                                     continue;
                                 }
-                                else if (m_MsgCount > 6) continue;
-
+                                
                                 if (Math.Abs(Convert.ToDouble(tmp[4].Trim())) > 1.2)
                                 {
                                     if (m_lastmsg! != null!) await ch.DeleteMessageAsync(m_lastmsg);
