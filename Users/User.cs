@@ -65,6 +65,7 @@ namespace pajoma_nvtbot.Users
 
 
                 //Find every message send by us and delete it, clean up a lil
+
                 if (MainBot.Client == null) return;
                 if(MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_DCID)).Result.GetMessagesAsync().Result != null!)
                 {
@@ -184,12 +185,18 @@ namespace pajoma_nvtbot.Users
                                     Console.WriteLine("Float pause " + Math.Abs(Convert.ToDouble(tmp[4].Trim())));
 #endif
 
-                                if (m_MsgCount == 6)
+                                if (m_MsgCount >= 12)
                                 {
+                                    if(tmp.Length < 10 || tmp[2].Contains("T00"))
+                                    {
+                                        //"Gleiche scheiße, neuer Tag beginnt"
+                                        m_MsgCount = 0;
+                                        Thread.Sleep(5 * 60000);
+                                        continue;
+                                    }
                                     if (m_lastmsg! != null!) await ch.DeleteMessageAsync(m_lastmsg);
-                                    m_MsgCount = 0;
-                                    m_lastmsg = null!;
-                                    DiscordMessage x = await ch.SendMessageAsync("[PJ-NVT] Du bist nun über 25 Minuten abwesend.");
+                                    m_lastmsg = null!; 
+                                    DiscordMessage x = await ch.SendMessageAsync("[PJ-NVT] Du bist nun eine Stunde abwesend.");
                                     Thread.Sleep(25 * 60000);
                                     continue;
                                 }
