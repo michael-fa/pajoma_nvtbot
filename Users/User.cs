@@ -16,13 +16,13 @@ namespace pajoma_nvtbot.Users
 {
     public class User
     {
-        public int m_Id { get; set; }
-        public string m_Password { get; set; } = null!;
-        public string m_DCID = null!;
+        //public int m_Id { get; set; }
+        //public string m_Password { get; set; } = null!;
+        //public string m_DCID = null!;
         public DiscordMessage m_lastmsg = null!;
         private Thread m_thread = null!;
         public Driver m_Driver = null!;
-        public IniFile m_IniFile = null!;
+        public Properties m_IniFile = null!;
         private bool m_threadRun;
         private int m_MsgCount = 0;
         public string m_JournalStr = null!;
@@ -32,18 +32,16 @@ namespace pajoma_nvtbot.Users
         //Create a user
         public User(int ID, string Password, string dcID)
         {
-            m_Id = ID;
-            m_Password = Password;
             //m_DiscordHandle = dcuser;
 
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini"))
             {
-                m_IniFile = new IniFile(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini");
+                m_IniFile = new Properties(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini");
 
-                m_IniFile.Write("ID", ID.ToString(), "Account");
-                m_IniFile.Write("Password", Password, "Account");
-                m_IniFile.Write("DiscordUserID", dcID, "Account");
-
+                m_IniFile.set("ID", ID.ToString());
+                m_IniFile.set("Password", Password);
+                m_IniFile.set("DiscordUserID", dcID);
+                m_IniFile.Save();
             }
 
             //Bot settings to default?
@@ -54,26 +52,20 @@ namespace pajoma_nvtbot.Users
         //Load a user
         public User(int ID)
         {
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini"))
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"/Users/" + ID.ToString() + ".ini"))
             {
-                m_IniFile = new IniFile(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini");
-
-                m_Id = Convert.ToInt32(m_IniFile.Read("ID", "Account"));
-                m_Password = m_IniFile.Read("Password", "Account");
-                m_DCID = m_IniFile.Read("DiscordUserID", "Account");
-                m_lastmsg = null!;
-
+                m_IniFile = new Properties(AppDomain.CurrentDomain.BaseDirectory + @"/Users/" + ID.ToString() + ".ini");
 
                 //Find every message send by us and delete it, clean up a lil
 
                 if (MainBot.Client == null) return;
-                if(MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_DCID)).Result.GetMessagesAsync().Result != null!)
+                if(MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result != null!)
                 {
-                    if (MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_DCID)).Result.GetMessagesAsync().Result.Count > 4)
-                        Console.WriteLine("[INFO] Deleting old messages in chat with user " + m_Id + " will take about " + MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_DCID)).Result.GetMessagesAsync().Result.Count() + " seconds, freezing actions for this user.");
+                    if (MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result.Count > 4)
+                        Console.WriteLine("[INFO] Deleting old messages in chat with user " + m_IniFile.get("DiscordUserID") + " will take about " + MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result.Count() + " seconds, freezing actions for this user.");
 
                     int fast = 0;
-                    foreach (DiscordMessage x in MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_DCID)).Result.GetMessagesAsync().Result)
+                    foreach (DiscordMessage x in MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result)
                     {
                         if (!x.Content.Contains("NVT"))
                         {
@@ -98,7 +90,7 @@ namespace pajoma_nvtbot.Users
 
                 //Load bot settings
 
-                Console.WriteLine("[INFO] Loaded User " + m_Id + " from save file.");
+                Console.WriteLine("[INFO] Loaded User " + m_IniFile.get("ID") + " from save file.");
                 RunBotThread();
             }
         }
@@ -178,7 +170,7 @@ namespace pajoma_nvtbot.Users
                                 DiscordDmChannel ch = null!;
                                 if (MainBot.Client != null)
                                 {
-                                    ch = (DiscordDmChannel)MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_DCID)).Result;
+                                    ch = (DiscordDmChannel)MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result;
                                 }
 
 #if DEBUG
@@ -249,7 +241,7 @@ namespace pajoma_nvtbot.Users
 
                 Thread.Sleep(1000);
             }
-            Console.WriteLine("User " + m_Id + " has been removed from loop.");
+            Console.WriteLine("User " + m_IniFile.get("ID") + " has been removed from loop.");
         }
     }
 }
