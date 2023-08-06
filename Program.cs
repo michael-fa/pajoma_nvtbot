@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using pajoma_nvtbot.Discord;
 using pajoma_nvtbot.Utils;
-using pajoma_nvtbot.Utils.IniFile;
 using pajoma_nvtbot.Web;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -101,8 +100,6 @@ namespace pajoma_nvtbot
 
             if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"/Users/"))
                 Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"/Users/");
-
-
 
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"/config.ini"))
                 File.Create(AppDomain.CurrentDomain.BaseDirectory + @"/config.ini");
