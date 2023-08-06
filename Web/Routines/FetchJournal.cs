@@ -50,7 +50,7 @@ namespace pajoma_nvtbot.Web.Routines
 #else
 
                         string[] spl = row.Text.Trim().Split('\n');
-                        if (row.Text.Contains("700") || row.Text.Contains("102") &&  row.Text.Contains("-34,32"))
+                        if (row.Text.Contains("6,02") || row.Text.Contains("700") &&  row.Text.Contains("-38,27"))
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             
