@@ -40,8 +40,8 @@ namespace pajoma_nvtbot.Web
             m_Driver.Manage().Window.Size = new System.Drawing.Size(1100, 950);
             m_Driver.Manage().Window.Position = new System.Drawing.Point(850, 1);
             m_JavaScript = (IJavaScriptExecutor)m_Driver;
-            m_Driver.Url = Program.m_NvtLink;
-            Console.WriteLine("[INFO] Web Driver for User " + user.m_Id + " initiated.");
+            m_Driver.Url = Program.m_Basecfg.get("url");
+            Console.WriteLine("[INFO] Web Driver for User " + m_User.m_IniFile.get("ID") + " initiated.");
 
 
 
@@ -53,11 +53,11 @@ namespace pajoma_nvtbot.Web
 
             //Enter data
 
-            x.SendKeys(user.m_Id.ToString());
+            x.SendKeys(m_User.m_IniFile.get("ID"));
             Thread.Sleep(1000);
 
             x = m_Driver.FindElement(By.Name("Ident2"));
-            x.SendKeys(user.m_Password.ToString());
+            x.SendKeys(m_User.m_IniFile.get("Password"));
             Thread.Sleep(1000);
 
             x = m_Driver.FindElement(By.Name("Btn0001"));
@@ -66,7 +66,7 @@ namespace pajoma_nvtbot.Web
 
             Thread.Sleep(3000);
 
-            Console.WriteLine("[INFO] [NOVA-TIME] Loggedin as User " + m_User.m_Id);
+            Console.WriteLine("[INFO] [NOVA-TIME] Loggedin as User " + m_User.m_IniFile.get("ID"));
 
             
         } 
