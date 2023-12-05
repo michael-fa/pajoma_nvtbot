@@ -59,7 +59,11 @@
         if (System.IO.File.Exists(filename))
             loadFromFile(filename);
         else
-            System.IO.File.Create(filename);
+        {
+            using FileStream fs = System.IO.File.Create(filename);
+            fs.Close();
+        }
+            
     }
 
     private void loadFromFile(String file)
