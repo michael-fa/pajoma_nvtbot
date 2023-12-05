@@ -3,18 +3,39 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pajoma_nvtbot", "pajoma_nvtbot.csproj", "{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pajoma_nvtbot", "pajoma_nvtbot.csproj", "{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM32 = Debug|ARM32
+		Debug|Win = Debug|Win
 		Release|Any CPU = Release|Any CPU
+		Release|ARM32 = Release|ARM32
+		Release|Win = Release|Win
+		UNIX|Any CPU = UNIX|Any CPU
+		UNIX|ARM32 = UNIX|ARM32
+		UNIX|Win = UNIX|Win
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Debug|ARM32.ActiveCfg = Debug|ARM32
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Debug|ARM32.Build.0 = Debug|ARM32
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Debug|Win.ActiveCfg = Debug|Any CPU
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Debug|Win.Build.0 = Debug|Any CPU
 		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Release|ARM32.Build.0 = Release|Any CPU
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Release|Win.ActiveCfg = Release|x64
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.Release|Win.Build.0 = Release|x64
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.UNIX|Any CPU.ActiveCfg = UNIX|x64
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.UNIX|Any CPU.Build.0 = UNIX|x64
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.UNIX|ARM32.ActiveCfg = UNIX|ARM32
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.UNIX|ARM32.Build.0 = UNIX|ARM32
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.UNIX|Win.ActiveCfg = UNIX|Any CPU
+		{6B9C4A7B-E89B-4519-98F7-B7186FA398D2}.UNIX|Win.Build.0 = UNIX|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
