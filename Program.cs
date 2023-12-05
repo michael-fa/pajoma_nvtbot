@@ -16,7 +16,7 @@ namespace pajoma_nvtbot
         internal static bool g_run = true;
         public static string m_NvtLink = null!;
 
-        public static Properties m_Basecfg = null!;
+        public static Properties m_Basecfg = null! ;
 
 
 
@@ -98,13 +98,13 @@ namespace pajoma_nvtbot
             SetConsoleCtrlHandler(m_Handler, true);
 #endif
 
-            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"/Users/"))
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"/Users/");
+            if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "Users/"))
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "Users/");
 
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"/config.ini"))
-                File.Create(AppDomain.CurrentDomain.BaseDirectory + @"/config.ini");
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "config.ini"))
+                File.Create(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
 
-            m_Basecfg = new Properties(AppDomain.CurrentDomain.BaseDirectory + @"/config.ini");
+            m_Basecfg = new Properties(AppDomain.CurrentDomain.BaseDirectory + "config.ini");
 
             if (m_Basecfg.get("auth-token", "changeme").Equals("changeme"))
             {
@@ -125,7 +125,7 @@ namespace pajoma_nvtbot
             MainBot.Init(m_Basecfg.get("auth-token"));
             MainBot.Start();
 
-            foreach (string file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"/Users/"))
+            foreach (string file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "Users/"))
             {
                 Console.WriteLine("Found user " + file);
                 string fl = file.Replace(".ini", "").PadRight(1);
