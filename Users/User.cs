@@ -25,6 +25,7 @@ namespace pajoma_nvtbot.Users
         public Properties m_IniFile = null!;
         private bool m_threadRun;
         private int m_MsgCount = 0;
+        private bool m_Mute = false;
         public string m_JournalStr = null!;
 
 
@@ -34,9 +35,9 @@ namespace pajoma_nvtbot.Users
         {
             //m_DiscordHandle = dcuser;
 
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini"))
+            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Users/" + ID.ToString() + ".ini"))
             {
-                m_IniFile = new Properties(AppDomain.CurrentDomain.BaseDirectory + "\\Users\\" + ID.ToString() + ".ini");
+                m_IniFile = new Properties(AppDomain.CurrentDomain.BaseDirectory + "/Users/" + ID.ToString() + ".ini");
 
                 m_IniFile.set("ID", ID.ToString());
                 m_IniFile.set("Password", Password);
@@ -47,19 +48,21 @@ namespace pajoma_nvtbot.Users
             //Bot settings to default?
 
             RunBotThread();
+
+
         }
 
         //Load a user
         public User(int ID)
         {
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"/Users/" + ID.ToString() + ".ini"))
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "/Users/" + ID.ToString() + ".ini"))
             {
-                m_IniFile = new Properties(AppDomain.CurrentDomain.BaseDirectory + @"/Users/" + ID.ToString() + ".ini");
+                m_IniFile = new Properties(AppDomain.CurrentDomain.BaseDirectory + "/Users/" + ID.ToString() + ".ini");
 
                 //Find every message send by us and delete it, clean up a lil
 
                 if (MainBot.Client == null) return;
-                if(MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result != null!)
+                if (MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result != null!)
                 {
                     if (MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result.Count > 4)
                         Console.WriteLine("[INFO] Deleting old messages in chat with user " + m_IniFile.get("DiscordUserID") + " will take about " + MainBot.Client.GetChannelAsync(Convert.ToUInt64(m_IniFile.get("DiscordUserID"))).Result.GetMessagesAsync().Result.Count() + " seconds, freezing actions for this user.");
@@ -85,7 +88,7 @@ namespace pajoma_nvtbot.Users
                     }
                 }
 
-                
+
 
 
                 //Load bot settings
@@ -95,7 +98,7 @@ namespace pajoma_nvtbot.Users
             }
         }
 
-        public void RunBotThread()
+        private void RunBotThread()
         {
             //Start thread and such
             m_threadRun = true;
@@ -103,13 +106,7 @@ namespace pajoma_nvtbot.Users
             m_thread.Start();
         }
 
-        public void StopBotThread()
-        {
-            m_threadRun = false;
-            //stop thread and all
-        }
-
-        private async void Loop()
+        async void Loop()
         {
 
 
@@ -136,7 +133,7 @@ namespace pajoma_nvtbot.Users
                         m_Driver = new Driver(this);
 
                         string[] tmp = Journal.GetFormatedSummary(this);
-                        
+
                         if (tmp.Length != 10 || tmp[2].Contains("T00"))
                         {
                             /*foreach (Process prs in Process.GetProcesses())
@@ -177,23 +174,26 @@ namespace pajoma_nvtbot.Users
                                     Console.WriteLine("Float pause " + Math.Abs(Convert.ToDouble(tmp[4].Trim())));
 #endif
 
-                                if (m_MsgCount >= 12)
+                                if (m_MsgCount >= 24)
                                 {
-                                    if(tmp.Length < 10 || tmp[2].Contains("T00"))
+                                    if (tmp.Length < 10 || tmp[2].Contains("T00"))
                                     {
+                                        m_Mute = false;
                                         //"Gleiche scheiße, neuer Tag beginnt"
                                         m_MsgCount = 0;
                                         Thread.Sleep(5 * 60000);
                                         continue;
                                     }
+                                    if (m_Mute) continue;
                                     if (m_lastmsg! != null!) await ch.DeleteMessageAsync(m_lastmsg);
-                                    m_lastmsg = null!; 
-                                    DiscordMessage x = await ch.SendMessageAsync("[PJ-NVT] Du bist nun eine Stunde abwesend.");
+                                    m_lastmsg = null!;
+                                    DiscordMessage x = await ch.SendMessageAsync("[PJ-NVT] Du bist nun zwei Stunden abwesend, bis morgen!");
                                     Thread.Sleep(25 * 60000);
+                                    m_Mute = true;
                                     continue;
                                 }
-                                
-                                if (Math.Abs(Convert.ToDouble(tmp[4].Trim())) > 1.2)
+
+                                if (tmp[4].StartsWith('1') || tmp[4].StartsWith('2') || tmp[4].StartsWith('3') || tmp[4].StartsWith('4'))
                                 {
                                     if (m_lastmsg! != null!) await ch.DeleteMessageAsync(m_lastmsg);
                                     DiscordMessage x = await ch.SendMessageAsync("[PJ-NVT] Deine heutige Arbeitszeit beträgt aktuell " + tmp[2].Trim() + ", Pausenzeit " + tmp[4].Trim() + ", Tagessaldo " + tmp[6].Trim() + ", Gesamtsaldo " + tmp[7].Trim() + " Stunden. Rauch mal weniger!");
@@ -209,7 +209,7 @@ namespace pajoma_nvtbot.Users
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message + "\n" + ex.InnerException + "\n" + ex.Source);
+                                //Console.WriteLine(ex.Message + "\n" + ex.InnerException + "\n" + ex.Source);
                             }
 
                             _Done = true;
@@ -232,7 +232,7 @@ namespace pajoma_nvtbot.Users
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Error in routine:  \n" + ex.Message + "\n" + ex.InnerException + "\n--------------------------------\nException occurs at:\n" + ex.Source);
+                        //Console.WriteLine("Error in routine:  \n" + ex.Message + "\n" + ex.InnerException + "\n--------------------------------\nException occurs at:\n" + ex.Source);
                     }
                 }
 
@@ -242,6 +242,11 @@ namespace pajoma_nvtbot.Users
                 Thread.Sleep(1000);
             }
             Console.WriteLine("User " + m_IniFile.get("ID") + " has been removed from loop.");
+        }
+        public void StopBotThread()
+        {
+            m_threadRun = false;
+            //stop thread and all
         }
     }
 }
